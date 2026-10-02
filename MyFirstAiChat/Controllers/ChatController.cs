@@ -13,6 +13,7 @@ namespace MyFirstAiChat.Controllers
     {
         private readonly IConfiguration _config;
 
+
         public ChatController(IConfiguration config)
         {
             _config = config;
