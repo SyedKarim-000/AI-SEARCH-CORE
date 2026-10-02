@@ -13,7 +13,6 @@ namespace MyFirstAiChat.Controllers
     {
         private readonly IConfiguration _config;
 
-
         public ChatController(IConfiguration config)
         {
             _config = config;
@@ -29,7 +28,9 @@ namespace MyFirstAiChat.Controllers
 
             var model =
                 googleAI.GenerativeModel(
-                    model: Model.Gemini3Flash);
+                    model: Model.Gemini3Flash,
+                    systemInstruction: new Content("Explain everything as if I am a 10 year old child.")
+                    );
 
             ChatMemory.Messages.Add(
                 new MyFirstAiChat.ChatModel.ChatMessage
@@ -61,18 +62,14 @@ namespace MyFirstAiChat.Controllers
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery] string? prompt)
         {
-            string apiKey = "";
-
-            string textInput = string.IsNullOrWhiteSpace(prompt)
-                        ? "Hello! Introduce yourself in one sentence."
-                        : prompt;
+            string apiKey = _config["Gemini:ApiKey"]!;
 
             var _prompt =
-$"""
-Explain the following as if I am a 10 year old child.
-Question:
-{prompt}
-""";
+                        $"""
+                        Explain the following as if I am a 10 year old child.
+                        Question:
+                        {prompt}
+                        """;
 
             var googleAi = new GoogleAI(apiKey: apiKey);
             var model = googleAi.GenerativeModel(Model.Gemini3Flash);
