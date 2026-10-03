@@ -4,3 +4,21 @@ GET {{MyFirstAiChat_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###
+
+POST {{MyFirstAiChat_HostAddress}}/api/rag/documents
+Content-Type: application/json
+
+{
+	"name": "Company handbook",
+	"content": "Employees receive 20 days of paid annual leave. The office is open Monday through Friday, from 9 AM to 5 PM. Remote work is allowed with manager approval."
+}
+
+###
+
+POST {{MyFirstAiChat_HostAddress}}/api/rag/ask
+Content-Type: application/json
+
+{
+	"question": "How many annual leave days do employees receive?",
+	"topK": 3
+}
